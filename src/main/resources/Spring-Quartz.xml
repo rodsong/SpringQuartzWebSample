@@ -1,0 +1,57 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+   <!-- defined tasks-->
+	<bean id="runMeTask" class="com.salil.example.springquartz.RunMeTask" />
+    <bean id="myTask" class="com.salil.example.springquartz.MyTask" />
+
+	<!-- Spring Quartz    -->
+	<bean name="runMeJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="com.salil.example.springquartz.RunMeJob" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="runMeTask" value-ref="runMeTask" />
+			</map>
+		</property>
+	</bean>
+
+ 	<!-- Override cron trigger -->
+ <!--	<bean id="cronTriggerCustom" class="com.salil.example.springquartz.MyCronTriggerBean">
+		<property name="jobDetail" ref="runMeJob" />
+	</bean>-->
+
+ 	<!-- Define configuration Cron Trigger, run every 10 seconds -->
+ 	<bean id="cronTriggerDefault" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="runMeJob" />
+		<property name="cronExpression" value="0/10 * * * * ?" />
+	</bean>
+
+
+    <bean name="myJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="com.salil.example.springquartz.MyJob"/>
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="myTask" value-ref="myTask" />
+            </map>
+        </property>
+
+    </bean>
+    <bean id="myTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="myJob" />
+        <property name="cronExpression" value="0/10 * * * * ?" />
+    </bean>
+
+
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<!--<ref bean="cronTriggerCustom" />-->
+				<ref bean="cronTriggerDefault" />
+                <ref bean="myTrigger"/>
+			</list>
+		</property>
+	</bean>
+
+</beans>
