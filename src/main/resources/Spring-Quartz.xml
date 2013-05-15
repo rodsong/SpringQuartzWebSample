@@ -44,12 +44,12 @@
     </bean>
 
 
-    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+    <bean id="schedulerFactoryBean"  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
 				<!--<ref bean="cronTriggerCustom" />-->
-				<ref bean="cronTriggerDefault" />
-                <ref bean="myTrigger"/>
+			    <!--	<ref bean="cronTriggerDefault" />-->
+                  <ref bean="myTrigger"/>
 			</list>
 		</property>
 	</bean>

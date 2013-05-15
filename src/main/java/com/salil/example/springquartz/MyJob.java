@@ -13,7 +13,13 @@ public class MyJob extends QuartzJobBean {
      @Override
 	protected void executeInternal(JobExecutionContext context)
 			throws JobExecutionException {
-
+         try {
              myTask.printMe();
+         }catch (Exception e){
+             e.printStackTrace();
+         }finally {
+
+         }
+
 	}
 }
