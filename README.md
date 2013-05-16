@@ -13,4 +13,4 @@ Following message will be print in console or log file when I shutdown this app 
  org.springframework.scheduling.quartz.SchedulerFactoryBean#0_Worker-10 but has failed to stop it. This is very likely to create a memory leak.
 
 
-So I add a context close event. detail account the class COntextClosedHandler.java
+So I add a context close event. detail refer to class COntextClosedHandler.java
