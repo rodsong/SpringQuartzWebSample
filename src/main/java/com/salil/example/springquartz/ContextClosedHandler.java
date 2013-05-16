@@ -12,6 +12,12 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 import java.util.concurrent.ExecutorService;
 
+/**
+ * The solution was call  Scheduler's method shutdown when Context closing.
+ *
+ * if you not use spring, you can thought servletListener excuse this method.
+ *
+ */
 public class ContextClosedHandler implements ApplicationListener<ContextClosedEvent> {
 
     private final Logger LOGGER = LoggerFactory.getLogger(ContextClosedHandler.class);
@@ -33,7 +39,8 @@ public class ContextClosedHandler implements ApplicationListener<ContextClosedEv
         //executorService.shutdown();
 
         try {
-            schedulerFactoryBean.shutdown(true);
+            //shutdown(true), whether wait running job complete
+            schedulerFactoryBean.shutdown();
             Thread.sleep(1000);
         } catch (SchedulerException e) {
             e.printStackTrace();
